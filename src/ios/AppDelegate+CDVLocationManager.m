@@ -50,9 +50,11 @@
 
     BOOL launchedWithoutOptions = launchOptions == nil;
     
-    if (!launchedWithoutOptions) {
+/*    if (!launchedWithoutOptions) {
         [self requestMoreBackgroundExecutionTime];
-    }
+    }*/
+    /*this makes sure the app will run in the background*/
+    [self requestMoreBackgroundExecutionTime];        
     
     return [self xxx_application:application didFinishLaunchingWithOptions:launchOptions];
     
