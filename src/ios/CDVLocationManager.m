@@ -88,6 +88,44 @@
 
 # pragma mark CLLocationManagerDelegate
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self extendBackgroundRunningTime];
+    __inBackground = true;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    __inBackground = false;
+}
+
+- (void)extendBackgroundRunningTime {
+    if (_BackgroundTask != UIBackgroundTaskInvalid) {
+        // if we are in here, that means the background task is already running.         // don't restart it.         return;
+    }
+    NSLog(@"Attempting to extend background running time");
+
+    __block Boolean self_terminate = YES;
+
+    _BackgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"DummyTask" expirationHandler:^{
+        NSLog(@"Background task expired by iOS");
+        if (self_terminate) {
+            [[UIApplication sharedApplication] endBackgroundTask:_BackgroundTask];
+            _BackgroundTask = UIBackgroundTaskInvalid;
+        }
+    }];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"Background task started");
+
+        while (true) {
+            NSLog(@"background time remaining: %8.2f", [UIApplication sharedApplication].backgroundTimeRemaining);
+            [NSThread sleepForTimeInterval:1];
+        }
+
+    });
+}
+
 - (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
     
     [self.commandDelegate runInBackground:^{
