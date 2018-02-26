@@ -91,12 +91,12 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     [self extendBackgroundRunningTime];
-    __inBackground = true;
+    _inBackground = true;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    __inBackground = false;
+    _inBackground = false;
 }
 
 - (void)extendBackgroundRunningTime {

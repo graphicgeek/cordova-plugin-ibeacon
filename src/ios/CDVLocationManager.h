@@ -45,6 +45,8 @@ const int CDV_LOCATION_MANAGER_INPUT_PARSE_ERROR = 100;
 
 @property BOOL debugNotificationsEnabled;
 
+@property BOOL inBackground;
+
 @property (retain) CBPeripheralManager *peripheralManager;
 @property (retain) CLRegion *advertisedBeaconRegion;
 @property (retain) NSDictionary *advertisedPeripheralData;
